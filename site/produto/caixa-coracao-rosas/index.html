@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produto — Flores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/product-page.css">
+  <link rel="stylesheet" href="../../css/location.css">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1654059595710313');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1654059595710313&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+  <header class="product-header">
+    <div class="product-header-inner">
+      <button type="button" class="btn-back" id="btn-back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        VOLTAR
+      </button>
+      <button type="button" class="header-location" data-flores-location aria-label="Trocar localização">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span data-flores-location-text>Detectando...</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="product-main">
+    <section class="product-card">
+      <div class="product-image-wrap">
+        <img id="product-image" src="index.html" alt="">
+      </div>
+      <div class="product-info">
+        <h1 id="product-name"></h1>
+        <p class="description" id="product-description"></p>
+        <div class="price-row">
+          <div class="price-old" id="price-old"></div>
+          <div class="price-current" id="price-current"></div>
+          <div class="discount-badge" id="discount-badge" style="display:none"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="option-section open" id="color-section">
+      <button type="button" class="option-header" id="color-header">
+        <div class="option-header-left">
+          <h2>Tipos de flores</h2>
+          <p>Escolha 1 opção</p>
+        </div>
+        <div class="option-header-right">
+          <span class="counter-badge" id="color-counter">0/1</span>
+          <span class="check-icon" id="color-check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </button>
+      <div class="option-body">
+        <label class="radio-option"><input type="radio" name="color" value="Rosas vermelhas"><span class="radio-circle"></span><span class="radio-label">Rosas vermelhas</span></label>
+        <label class="radio-option"><input type="radio" name="color" value="Tulipas"><span class="radio-circle"></span><span class="radio-label">Tulipas</span></label>
+        <label class="radio-option"><input type="radio" name="color" value="Girassol"><span class="radio-circle"></span><span class="radio-label">Girassol</span></label>
+        <label class="radio-option"><input type="radio" name="color" value="Outros"><span class="radio-circle"></span><span class="radio-label">Outros</span></label>
+      </div>
+    </section>
+
+    <section class="option-section" id="extras-section">
+      <button type="button" class="option-header" id="extras-header">
+        <div class="option-header-left">
+          <h2>Turbine seu pedido</h2>
+          <p>7 mimos grátis no 1º pedido</p>
+        </div>
+        <div class="option-header-right">
+          <span class="counter-badge" id="extras-counter">0/7</span>
+          <span class="check-icon" id="extras-check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </button>
+      <div class="option-body">
+        <div class="extra-item"><div class="extra-info"><h3>Laço de cetim especial</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="laco" data-action="minus">−</button><span class="qty-value" id="extra-qty-laco">0</span><button type="button" class="qty-btn" data-extra="laco" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Mini balão metalizado ❤️</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="balao" data-action="minus">−</button><span class="qty-value" id="extra-qty-balao">0</span><button type="button" class="qty-btn" data-extra="balao" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Borrifada de perfume nas flores</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="perfume" data-action="minus">−</button><span class="qty-value" id="extra-qty-perfume">0</span><button type="button" class="qty-btn" data-extra="perfume" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Glitter nas pétalas</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="glitter" data-action="minus">−</button><span class="qty-value" id="extra-qty-glitter">0</span><button type="button" class="qty-btn" data-extra="glitter" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Embalagem premium</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="embalagem" data-action="minus">−</button><span class="qty-value" id="extra-qty-embalagem">0</span><button type="button" class="qty-btn" data-extra="embalagem" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Sachê aromático</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="sache" data-action="minus">−</button><span class="qty-value" id="extra-qty-sache">0</span><button type="button" class="qty-btn" data-extra="sache" data-action="plus">+</button></div></div>
+        <div class="extra-item"><div class="extra-info"><h3>Pétalas de rosa no embrulho</h3><p>Grátis no 1º pedido</p></div><div class="qty-control"><button type="button" class="qty-btn" data-extra="petalas" data-action="minus">−</button><span class="qty-value" id="extra-qty-petalas">0</span><button type="button" class="qty-btn" data-extra="petalas" data-action="plus">+</button></div></div>
+      </div>
+    </section>
+
+    <section class="notes-section">
+      <h2>Alguma observação?</h2>
+      <p>Algum detalhe que devemos saber? (opcional)</p>
+      <textarea id="notes-input" maxlength="140" placeholder="Escreva aqui ..."></textarea>
+      <div class="char-count"><span id="notes-count">0/140</span></div>
+    </section>
+  </main>
+
+  <footer class="product-footer">
+    <div class="footer-qty">
+      <button type="button" class="qty-btn" id="footer-qty-minus">−</button>
+      <span class="qty-value" id="footer-qty-value">1</span>
+      <button type="button" class="qty-btn" id="footer-qty-plus">+</button>
+    </div>
+    <button type="button" class="btn-add" id="btn-add">
+      <span class="btn-add-left">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg>
+        Adicionar
+      </span>
+      <span class="btn-add-price" id="btn-add-price">R$ 0,00</span>
+    </button>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <button type="button" class="cart-fab" id="cart-fab" aria-label="Abrir carrinho">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg>
+    <span class="cart-fab-badge" id="cart-fab-badge">0</span>
+  </button>
+
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/></svg>
+        Seu Pedido
+      </h2>
+      <button type="button" class="cart-close" id="cart-close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total"><span>Total</span><span id="cart-total-value">R$ 0,00</span></div>
+      <button type="button" class="btn-checkout" id="btn-checkout">Finalizar Pedido →</button>
+      <button type="button" class="btn-continue" id="btn-continue">Continuar comprando</button>
+    </div>
+  </div>
+
+  <script src="../../js/products-data.js"></script>
+  <script src="../../js/cart-shared.js"></script>
+  <script src="../../js/location-shared.js"></script>
+  <script src="../../js/product-page.js"></script>
+  <script>ProductPage.init("caixa-coracao-rosas");</script>
+
+<script async id="netlify-rum-container" src="../../.netlify/scripts/rum" data-netlify-rum-site-id="9dc42216-b22f-4942-a267-f8e948bf4e00" data-netlify-deploy-branch="" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiOWRjNDIyMTYtYjIyZi00OTQyLWEyNjctZjhlOTQ4YmY0ZTAwIiwiYWNjb3VudF9pZCI6IjY5OTY4YTZiMTNlZTNhNTE2OGUwZWIyZiIsImRlcGxveV9pZCI6IjZhMjdmNDE4MDdmOGE0OGE5OGRkODhkYSIsImlzc3VlciI6Im5mc2VydmVyIn0.0U1cz0JGtDefeKddDGVtUjKmFnlzbqbm92-4Ws5tVOU"></script></body>
+</html>

@@ -1,0 +1,15 @@
+# Segredos — NUNCA versionar
+.env
+.env.local
+.env.*.local
+
+# Dependências / build
+node_modules/
+
+# Logs e temporários
+*.log
+/tmp/
+.DS_Store
+
+# Artefatos do espelhamento
+index_raw.html

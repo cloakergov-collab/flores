@@ -1,0 +1,12 @@
+{
+  "name": "espelhamento-flores",
+  "version": "1.0.0",
+  "description": "Mirror do site Paraíso das Flores com checkout PIX integrado (AssetPay)",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

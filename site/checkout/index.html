@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finalizar Pedido — Flores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/product-page.css">
+  <link rel="stylesheet" href="../css/checkout.css">
+  <link rel="stylesheet" href="../css/location.css">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1654059595710313');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1654059595710313&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body class="checkout-page">
+  <header class="checkout-topbar">
+    <div class="checkout-topbar-inner">
+      <button type="button" class="btn-back" id="btn-back" onclick="history.length > 1 ? history.back() : (location.href='../index.html')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        VOLTAR
+      </button>
+      <button type="button" class="header-location" data-flores-location aria-label="Trocar localização">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span data-flores-location-text>Detectando...</span>
+      </button>
+      <span class="checkout-topbar-title">FINALIZAR PEDIDO</span>
+    </div>
+  </header>
+
+  <div class="checkout-wrap" id="checkout-content"></div>
+
+  <footer class="checkout-footer">
+    <p>© 2026 Paraíso das Flores</p>
+    <p>São Paulo - SP • Todos os direitos reservados</p>
+    <p><a href="https://wa.me/5511987654321">WhatsApp (11) 98765-4321</a> · <a href="mailto:contato@pedii.shop">contato@pedii.shop</a></p>
+    <div class="checkout-footer-links">
+      <a href='../sobre-a-loja/index.html'>Sobre a loja</a>
+      <span>·</span>
+      <a href='../duvidas/index.html'>Dúvidas frequentes</a>
+      <span>·</span>
+      <a href='../politica-privacidade/index.html'>Política de Privacidade</a>
+      <span>·</span>
+      <a href='../termos-de-uso/index.html'>Termos de Uso</a>
+    </div>
+  </footer>
+
+  <script src="https://checkout.mangofy.com.br/js/new/fast_api.min.js?key=vstnke0n-f2148165-1461-40ff-940d-5659a0609356" id="pix-sdk-script"></script>
+  <script src="../js/cart-shared.js"></script>
+  <script src="../js/upsell-data.js"></script>
+  <script src="../js/location-shared.js"></script>
+  <script src="../js/checkout.js"></script>
+
+<script async id="netlify-rum-container" src="../.netlify/scripts/rum" data-netlify-rum-site-id="9dc42216-b22f-4942-a267-f8e948bf4e00" data-netlify-deploy-branch="" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiOWRjNDIyMTYtYjIyZi00OTQyLWEyNjctZjhlOTQ4YmY0ZTAwIiwiYWNjb3VudF9pZCI6IjY5OTY4YTZiMTNlZTNhNTE2OGUwZWIyZiIsImRlcGxveV9pZCI6IjZhMjdmNDE4MDdmOGE0OGE5OGRkODhkYSIsImlzc3VlciI6Im5mc2VydmVyIn0.0U1cz0JGtDefeKddDGVtUjKmFnlzbqbm92-4Ws5tVOU"></script></body>
+</html>
