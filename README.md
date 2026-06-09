@@ -40,6 +40,27 @@ ASSETPAY_SECRET_KEY="sua_secret" ASSETPAY_PUBLIC_KEY="sua_public" node server.js
 `Authorization: Basic base64(secret_key:public_key)` contra
 `https://api.assetpay.com.br/api/v1`.
 
+## Deploy no Netlify
+
+O [`netlify.toml`](netlify.toml) publica a pasta `site/` e mapeia a API PIX para
+**Netlify Functions** (`netlify/functions/gerar.js` e `status.js`):
+
+| Rota pública      | Função serverless              |
+| ----------------- | ------------------------------ |
+| `/api/gerar`      | `.netlify/functions/gerar`     |
+| `/api/status?id=` | `.netlify/functions/status`    |
+
+Defina as credenciais em **Site settings → Environment variables**:
+
+```
+ASSETPAY_SECRET_KEY = sk_live_...
+ASSETPAY_PUBLIC_KEY = pk_live_...
+```
+
+Sem essas variáveis o site funciona em **modo demo** (PIX confirma sozinho ~18s).
+Em serverless o demo é *stateless*: o horário da confirmação vai codificado no
+próprio `transactionId`, então `/api/status` não depende de memória compartilhada.
+
 ## Fluxo do checkout
 
 1. **Dados** (nome, CPF, telefone)

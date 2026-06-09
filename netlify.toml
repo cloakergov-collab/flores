@@ -1,0 +1,20 @@
+# Configuração do deploy no Netlify
+[build]
+  # O site espelhado fica dentro de site/ — essa é a raiz publicada
+  publish = "site"
+  # Funções serverless (proxy PIX AssetPay)
+  functions = "netlify/functions"
+
+# /api/gerar  -> função "gerar"  (cria a cobrança PIX)
+[[redirects]]
+  from = "/api/gerar"
+  to = "/.netlify/functions/gerar"
+  status = 200
+  force = true
+
+# /api/status -> função "status" (consulta o pagamento)
+[[redirects]]
+  from = "/api/status"
+  to = "/.netlify/functions/status"
+  status = 200
+  force = true
