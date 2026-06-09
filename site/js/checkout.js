@@ -154,6 +154,27 @@
     return getAvailableUpsells().filter(function (u) { return !!selectedUpsellIds[u.id]; });
   }
 
+  function toMoneyNumber(value) {
+    var n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function getItemQuantity(item) {
+    var quantity = Number(item && item.quantity);
+    return Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
+  }
+
+  function getItemUnitPrice(item) {
+    var basePrice = Number(item && item.basePrice);
+    if (Number.isFinite(basePrice) && basePrice > 0) return basePrice;
+
+    var subtotal = Number(item && item.subtotal);
+    var quantity = getItemQuantity(item);
+    if (Number.isFinite(subtotal) && subtotal > 0) return subtotal / quantity;
+
+    return 0;
+  }
+
   function getOrderLines() {
     var lines = cartItems.map(function (item) {
       return {
@@ -175,8 +196,10 @@
   }
 
   function recalcTotal() {
-    var cartSum = cartItems.reduce(function (s, i) { return s + i.subtotal; }, 0);
-    var upsellSum = getSelectedUpsells().reduce(function (s, u) { return s + u.price; }, 0);
+    var cartSum = cartItems.reduce(function (s, i) {
+      return s + getItemUnitPrice(i) * getItemQuantity(i);
+    }, 0);
+    var upsellSum = getSelectedUpsells().reduce(function (s, u) { return s + toMoneyNumber(u.price); }, 0);
     cartTotal = cartSum + upsellSum;
   }
 
@@ -709,14 +732,14 @@
     var items = cartItems.map(function (item) {
       return {
         name: item.name,
-        price: Number(item.basePrice),
-        quantity: Number(item.quantity)
+        price: getItemUnitPrice(item),
+        quantity: getItemQuantity(item)
       };
     });
     getSelectedUpsells().forEach(function (u) {
       items.push({
         name: u.name,
-        price: Number(u.price),
+        price: toMoneyNumber(u.price),
         quantity: 1
       });
     });
@@ -724,9 +747,10 @@
   }
 
   function buildPixTotal() {
-    return buildPixItems().reduce(function (sum, item) {
+    var total = buildPixItems().reduce(function (sum, item) {
       return sum + item.price * item.quantity;
     }, 0);
+    return Number.isFinite(total) ? total : 0;
   }
 
   function buildDeliveryPayload() {
@@ -905,6 +929,9 @@
 
     try {
       var pixTotal = Number(buildPixTotal().toFixed(2));
+      if (!Number.isFinite(pixTotal) || pixTotal <= 0) {
+        throw new Error("Valor do pedido inválido. Remova e adicione o produto novamente.");
+      }
 
       sessionStorage.setItem("flores-pending-delivery", JSON.stringify(delivery));
 
