@@ -665,6 +665,154 @@
 
 .empty-msg a { color: var(--primary); font-weight: 700; }
 
+/* ---------- Tela de pedido confirmado ---------- */
+.order-confirmed {
+  text-align: center;
+  padding: 28px 20px 26px;
+  animation: oc-fade 0.5s ease;
+}
+@keyframes oc-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.oc-badge {
+  width: 84px;
+  height: 84px;
+  margin: 4px auto 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #e9fbf0, #d6f5e3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 26px rgba(34, 197, 94, 0.28);
+  animation: oc-pop 0.55s cubic-bezier(0.18, 1.25, 0.4, 1);
+}
+.oc-check {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes oc-pop { 0% { transform: scale(0); } 65% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+.oc-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--success);
+  margin-bottom: 8px;
+}
+.oc-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 440px;
+  margin: 0 auto 22px;
+}
+.oc-sub strong { color: var(--text, #333); }
+
+/* Timeline de status do pedido */
+.oc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-align: left;
+  max-width: 360px;
+  margin: 0 auto 24px;
+}
+.oc-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  position: relative;
+  color: var(--muted);
+  font-size: 14px;
+}
+.oc-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+  top: 38px;
+  width: 2px;
+  height: calc(100% - 20px);
+  background: var(--border);
+}
+.oc-step.done:not(:last-child)::after { background: var(--success); }
+.oc-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f1f3;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 1;
+}
+.oc-step.done .oc-dot {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+  font-weight: 800;
+}
+.oc-step.active .oc-dot {
+  background: #fff;
+  border-color: var(--primary);
+}
+.oc-step.active .oc-label { color: var(--primary); font-weight: 700; }
+.oc-step.done .oc-label { color: var(--text, #333); font-weight: 600; }
+.oc-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  opacity: 0.6;
+  animation: oc-ring 1.5s ease-out infinite;
+}
+@keyframes oc-ring {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.oc-card {
+  text-align: left;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 6px 16px;
+  max-width: 440px;
+  margin: 0 auto 18px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+.oc-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.oc-row:last-child { border-bottom: none; }
+.oc-row span { color: var(--muted); flex-shrink: 0; }
+.oc-row strong { text-align: right; color: var(--text, #333); }
+.oc-total strong { color: var(--success); font-size: 17px; font-weight: 800; }
+
+.oc-note {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 auto 20px;
+  line-height: 1.5;
+}
+.oc-back { display: block; max-width: 320px; margin: 0 auto; text-decoration: none; }
+
 /* Footer */
 .checkout-footer {
   background: var(--primary);

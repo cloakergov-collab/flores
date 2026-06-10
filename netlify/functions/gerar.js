@@ -14,6 +14,7 @@ const BASE_URL = process.env.ASSETPAY_BASE_URL || "https://api.assetpay.com.br/a
 const SECRET_KEY = process.env.ASSETPAY_SECRET_KEY || "";
 const PUBLIC_KEY = process.env.ASSETPAY_PUBLIC_KEY || "";
 const PIX_EXPIRES_DAYS = Number(process.env.PIX_EXPIRES_DAYS || 1);
+const POSTBACK_URL = process.env.POSTBACK_URL || "";
 const DEMO_MODE = !SECRET_KEY || !PUBLIC_KEY;
 
 function json(status, obj) {
@@ -93,7 +94,8 @@ exports.handler = async (event) => {
     items: [{ title: "Pagamento PIX", unitPrice: reaisToCents(valor), quantity: 1, type: "physical" }],
     pix: { expiresInDays: PIX_EXPIRES_DAYS }
   };
-  if (input.postbackUrl) payload.postbackUrl = input.postbackUrl;
+  var postback = input.postbackUrl || POSTBACK_URL;
+  if (postback) payload.postbackUrl = postback;
 
   try {
     const auth = Buffer.from(SECRET_KEY + ":" + PUBLIC_KEY).toString("base64");

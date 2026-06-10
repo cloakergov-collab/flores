@@ -51,6 +51,7 @@ const BASE_URL = process.env.ASSETPAY_BASE_URL || "https://api.assetpay.com.br/a
 const SECRET_KEY = process.env.ASSETPAY_SECRET_KEY || "";
 const PUBLIC_KEY = process.env.ASSETPAY_PUBLIC_KEY || "";
 const PIX_EXPIRES_DAYS = Number(process.env.PIX_EXPIRES_DAYS || 1);
+const POSTBACK_URL = process.env.POSTBACK_URL || "";
 const DEMO_MODE = !SECRET_KEY || !PUBLIC_KEY;
 
 // Armazena transações do modo demo em memória (id -> { paidAt, amount })
@@ -238,7 +239,8 @@ async function handleGerar(req, res) {
   };
   // Nenhuma informação do pedido vai para o provedor: sem endereço, sem
   // detalhe de produtos, sem metadados. Só valor + item genérico + cliente.
-  if (input.postbackUrl) payload.postbackUrl = input.postbackUrl;
+  var postback = input.postbackUrl || POSTBACK_URL;
+  if (postback) payload.postbackUrl = postback;
 
   try {
     const r = await assetpayRequest("POST", "/transactions", payload);

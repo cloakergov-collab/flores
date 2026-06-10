@@ -804,6 +804,7 @@
   }
 
   function showPixStep(delivery, response) {
+    lastOrder = { delivery: delivery, total: cartTotal, transactionId: response.transactionId };
     $("checkout-content").innerHTML =
       renderStepper() +
       '<div class="checkout-panel pix-step">' +
@@ -863,6 +864,7 @@
 
   var pixPollTimer = null;
   var pixCountdownTimer = null;
+  var lastOrder = null;
 
   function startPixCountdown(expiresAt) {
     if (!expiresAt) return;
@@ -895,9 +897,55 @@
     if (waiting) {
       waiting.classList.add("pix-approved");
       waiting.innerHTML = '<span class="pix-check" aria-hidden="true">✓</span>' +
-        "<span>Pagamento confirmado! Redirecionando...</span>";
+        "<span>Pagamento confirmado!</span>";
     }
-    setTimeout(function () { window.paymentApproved(); }, 1800);
+    setTimeout(function () { window.paymentApproved(); }, 1400);
+  }
+
+  function renderOrderConfirmed(order) {
+    var delivery = order.delivery || {};
+    var total = typeof order.total === "number" ? order.total : 0;
+    var code = order.transactionId
+      ? String(order.transactionId).replace(/[^A-Za-z0-9]/g, "").slice(-8).toUpperCase()
+      : ("FL" + Date.now().toString().slice(-7));
+
+    $("checkout-content").innerHTML =
+      '<div class="checkout-panel order-confirmed">' +
+        '<div class="oc-badge"><span class="oc-check" aria-hidden="true">✓</span></div>' +
+        '<h1 class="oc-title">Pagamento confirmado!</h1>' +
+        '<p class="oc-sub">Recebemos seu pagamento e <strong>já estamos preparando seu pedido</strong> com todo o carinho 🌹</p>' +
+
+        '<div class="oc-steps">' +
+          '<div class="oc-step done">' +
+            '<span class="oc-dot">✓</span><span class="oc-label">Pagamento aprovado</span>' +
+          "</div>" +
+          '<div class="oc-step active">' +
+            '<span class="oc-dot"><span class="oc-pulse"></span>🌷</span><span class="oc-label">Preparando seu pedido</span>' +
+          "</div>" +
+          '<div class="oc-step">' +
+            '<span class="oc-dot">🛵</span><span class="oc-label">Saiu para entrega</span>' +
+          "</div>" +
+          '<div class="oc-step">' +
+            '<span class="oc-dot">🌹</span><span class="oc-label">Entregue</span>' +
+          "</div>" +
+        "</div>" +
+
+        '<div class="oc-card">' +
+          '<div class="oc-row"><span>Nº do pedido</span><strong>#' + escapeHtml(code) + "</strong></div>" +
+          '<div class="oc-row"><span>Entrega para</span><strong>' + escapeHtml(delivery.recipientName || "—") + "</strong></div>" +
+          '<div class="oc-row"><span>Quando</span><strong>' + escapeHtml(delivery.deliveryLabel || "—") + "</strong></div>" +
+          '<div class="oc-row"><span>Endereço</span><strong>' + escapeHtml(delivery.address || "—") + "</strong></div>" +
+          (delivery.isGift && delivery.cardMessage
+            ? '<div class="oc-row"><span>Cartão</span><strong>' + escapeHtml(delivery.cardMessage) + "</strong></div>"
+            : "") +
+          '<div class="oc-row oc-total"><span>Total pago</span><strong>R$ ' + FloresCart.formatPrice(total) + "</strong></div>" +
+        "</div>" +
+
+        '<p class="oc-note">Você receberá novidades da entrega por aqui. Qualquer dúvida, é só falar com a gente. 💬</p>' +
+        '<a class="btn-primary oc-back" href="../index.html">Voltar à loja</a>' +
+      "</div>";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function startPixPolling(transactionId) {
@@ -914,10 +962,13 @@
   }
 
   window.paymentApproved = function () {
-    sessionStorage.removeItem("flores-pending-delivery");
-    sessionStorage.removeItem(UPSELL_STORAGE_KEY);
-    FloresCart.clear();
-    window.location.href = "../index.html?pagamento=aprovado";
+    var order = lastOrder || {};
+    try {
+      sessionStorage.removeItem("flores-pending-delivery");
+      sessionStorage.removeItem(UPSELL_STORAGE_KEY);
+      FloresCart.clear();
+    } catch (e) { /* ignora falha de storage */ }
+    renderOrderConfirmed(order);
   };
 
   async function generateOrderPix() {
