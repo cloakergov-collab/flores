@@ -1,7 +1,7 @@
 # Paraíso das Flores — mirror + checkout PIX
 
 Espelho estático do site `flores-namorados.com` (em [`site/`](site/)) com um pequeno
-servidor Node que serve as páginas e integra o pagamento **PIX via AssetPay**.
+servidor Node que serve as páginas e integra o pagamento **PIX via BlackCat Pay**.
 
 ## Como rodar
 
@@ -14,8 +14,8 @@ Sem dependências externas (usa só os módulos nativos do Node ≥ 18).
 
 ## Pagamento PIX
 
-O navegador **nunca** vê a chave secreta: ele chama o seu servidor, que faz o
-proxy autenticado para a AssetPay.
+O navegador **nunca** vê a API Key: ele chama o seu servidor, que faz o
+proxy autenticado para a BlackCat Pay.
 
 | Rota              | Método | O que faz                                              |
 | ----------------- | ------ | ------------------------------------------------------ |
@@ -28,17 +28,17 @@ Sem chaves configuradas, o PIX roda em modo demo: gera um código copia-e-cola
 válido (estrutura EMV real, chave fictícia) e o pagamento **confirma sozinho
 ~18s** depois — ideal para testar a tela.
 
-### Modo REAL (AssetPay)
+### Modo REAL (BlackCat Pay)
 
-Defina as credenciais e reinicie:
+Defina a chave e reinicie:
 
 ```bash
-ASSETPAY_SECRET_KEY="sua_secret" ASSETPAY_PUBLIC_KEY="sua_public" node server.js
+BLACKCAT_API_KEY="sua_api_key" node server.js
 ```
 
-(ou copie `.env.example` para `.env` e exporte as variáveis). A autenticação é
-`Authorization: Basic base64(secret_key:public_key)` contra
-`https://api.assetpay.com.br/api/v1`.
+(ou copie `.env.example` para `.env` e preencha). A autenticação é o header
+`X-API-Key: <api_key>` contra `https://api.blackcatpay.com.br/api`
+(`POST /sales/create-sale` e `GET /sales/{id}/status`).
 
 ## Deploy no Netlify
 
@@ -53,8 +53,8 @@ O [`netlify.toml`](netlify.toml) publica a pasta `site/` e mapeia a API PIX para
 Defina as credenciais em **Site settings → Environment variables**:
 
 ```
-ASSETPAY_SECRET_KEY = sk_live_...
-ASSETPAY_PUBLIC_KEY = pk_live_...
+BLACKCAT_API_KEY = sua_api_key
+POSTBACK_URL     = https://paraisodaflor.com/api/webhook
 ```
 
 Sem essas variáveis o site funciona em **modo demo** (PIX confirma sozinho ~18s).

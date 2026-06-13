@@ -1,13 +1,12 @@
 "use strict";
 
 /**
- * Netlify Function: consulta o status de um pagamento PIX.
+ * Netlify Function: consulta o status de um pagamento PIX na BlackCat Pay.
  * Rota pública: GET /api/status?id=...  (via redirect no netlify.toml)
  */
 
-const BASE_URL = process.env.ASSETPAY_BASE_URL || "https://api.assetpay.com.br/api/v1";
-const SECRET_KEY = process.env.ASSETPAY_SECRET_KEY || "";
-const PUBLIC_KEY = process.env.ASSETPAY_PUBLIC_KEY || "";
+const BASE_URL = process.env.BLACKCAT_BASE_URL || "https://api.blackcatpay.com.br/api";
+const API_KEY = process.env.BLACKCAT_API_KEY || "";
 
 function json(status, obj) {
   return {
@@ -29,19 +28,18 @@ exports.handler = async (event) => {
     return json(200, { success: true, demo: true, status: paid ? "paid" : "pending", paid: paid });
   }
 
-  if (!SECRET_KEY || !PUBLIC_KEY) {
+  if (!API_KEY) {
     return json(200, { success: true, status: "pending", paid: false });
   }
 
-  // ---------- MODO REAL ----------
+  // ---------- MODO REAL (BlackCat Pay) ----------
   try {
-    const auth = Buffer.from(SECRET_KEY + ":" + PUBLIC_KEY).toString("base64");
-    const r = await fetch(BASE_URL.replace(/\/$/, "") + "/transactions/" + encodeURIComponent(id), {
-      headers: { "Authorization": "Basic " + auth, "Accept": "application/json" }
+    const r = await fetch(BASE_URL.replace(/\/$/, "") + "/sales/" + encodeURIComponent(id) + "/status", {
+      headers: { "X-API-Key": API_KEY, "Accept": "application/json" }
     });
     const body = await r.json().catch(() => ({}));
-    const status = (body && body.status) || "unknown";
-    return json(200, { success: true, status: status, paid: status === "paid" });
+    const status = (body && body.data && body.data.status) || "UNKNOWN";
+    return json(200, { success: true, status: status, paid: status === "PAID" });
   } catch (e) {
     return json(502, { success: false, error: "Falha ao consultar pagamento." });
   }

@@ -1,21 +1,20 @@
 "use strict";
 
 /**
- * Netlify Function: cria uma cobrança PIX na AssetPay.
+ * Netlify Function: cria uma venda PIX na BlackCat Pay.
  * Rota pública: POST /api/gerar  (via redirect no netlify.toml)
  *
- * A chave secreta fica só nas variáveis de ambiente do Netlify
- * (Site settings -> Environment variables). Sem chaves -> MODO DEMO.
+ * A API Key fica só nas variáveis de ambiente do Netlify
+ * (Site settings -> Environment variables). Sem chave -> MODO DEMO.
  */
 
 const crypto = require("crypto");
 
-const BASE_URL = process.env.ASSETPAY_BASE_URL || "https://api.assetpay.com.br/api/v1";
-const SECRET_KEY = process.env.ASSETPAY_SECRET_KEY || "";
-const PUBLIC_KEY = process.env.ASSETPAY_PUBLIC_KEY || "";
+const BASE_URL = process.env.BLACKCAT_BASE_URL || "https://api.blackcatpay.com.br/api";
+const API_KEY = process.env.BLACKCAT_API_KEY || "";
 const PIX_EXPIRES_DAYS = Number(process.env.PIX_EXPIRES_DAYS || 1);
 const POSTBACK_URL = process.env.POSTBACK_URL || "";
-const DEMO_MODE = !SECRET_KEY || !PUBLIC_KEY;
+const DEMO_MODE = !API_KEY;
 
 function json(status, obj) {
   return {
@@ -78,52 +77,54 @@ exports.handler = async (event) => {
     });
   }
 
-  // ---------- MODO REAL (AssetPay) — sem dados do pedido ----------
+  // ---------- MODO REAL (BlackCat Pay) — sem dados do pedido ----------
   const cpf = onlyDigits(cust.cpf);
   const phone = onlyDigits(cust.phone);
   const payload = {
     amount: reaisToCents(valor),
+    currency: "BRL",
     paymentMethod: "PIX",
-    externalRef: input.externalRef || ("PEDIDO-" + Date.now()),
+    items: [{ title: "Pagamento PIX", unitPrice: reaisToCents(valor), quantity: 1, tangible: false }],
     customer: {
       name: cust.name || "Cliente",
       email: cust.email || ((cpf || "cliente") + "@flores-namorados.com"),
       phone: phone || "11999999999",
-      document: { type: "CPF", number: cpf || "00000000000" }
+      document: { type: "cpf", number: cpf || "00000000000" }
     },
-    items: [{ title: "Pagamento PIX", unitPrice: reaisToCents(valor), quantity: 1, type: "physical" }],
-    pix: { expiresInDays: PIX_EXPIRES_DAYS }
+    pix: { expiresInDays: PIX_EXPIRES_DAYS },
+    externalRef: input.externalRef || ("PEDIDO-" + Date.now())
   };
-  var postback = input.postbackUrl || POSTBACK_URL;
+  const postback = input.postbackUrl || POSTBACK_URL;
   if (postback) payload.postbackUrl = postback;
 
   try {
-    const auth = Buffer.from(SECRET_KEY + ":" + PUBLIC_KEY).toString("base64");
-    const r = await fetch(BASE_URL.replace(/\/$/, "") + "/transactions", {
+    const r = await fetch(BASE_URL.replace(/\/$/, "") + "/sales/create-sale", {
       method: "POST",
       headers: {
-        "Authorization": "Basic " + auth,
+        "X-API-Key": API_KEY,
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
       body: JSON.stringify(payload)
     });
     const body = await r.json().catch(() => ({}));
-    if (r.status === 201 && body && body.pix) {
+    const d = body && body.data;
+    if ((r.status === 201 || r.status === 200) && body && body.success && d && d.paymentData) {
+      const pd = d.paymentData;
+      const pixCode = pd.copyPaste || pd.qrCode;
       return json(200, {
         success: true,
-        transactionId: body.id,
-        pixCode: body.pix.qrcode,
-        qrcodeUrl: body.pix.qrcodeUrl ||
-          ("https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" +
-            encodeURIComponent(body.pix.qrcode)),
-        expiresAt: body.pix.expirationDate || null
+        transactionId: d.transactionId,
+        pixCode: pixCode,
+        qrcodeUrl: pd.qrCodeBase64 ||
+          ("https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" + encodeURIComponent(pixCode || "")),
+        expiresAt: pd.expiresAt || null
       });
     }
-    console.error("[AssetPay] /transactions status", r.status, JSON.stringify(body));
+    console.error("[BlackCat] create-sale status", r.status, JSON.stringify(body));
     return json(200, { success: false, error: (body && (body.message || body.error)) || "Não foi possível gerar o PIX." });
   } catch (e) {
-    console.error("[AssetPay] erro de conexão:", e.message);
+    console.error("[BlackCat] erro de conexão:", e.message);
     return json(502, { success: false, error: "Falha ao contatar o provedor de pagamento." });
   }
 };
